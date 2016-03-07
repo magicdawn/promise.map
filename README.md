@@ -7,8 +7,10 @@
 [![npm downloads](https://img.shields.io/npm/dm/promise.map.svg)](https://www.npmjs.com/package/promise.map)
 [![npm license](https://img.shields.io/npm/l/promise.map.svg)](http://magicdawn.mit-license.org)
 
-## install
+## Note
+this is target ES5 environment.
 
+## Install
 ```
 $ npm i promise.map --save
 ```
