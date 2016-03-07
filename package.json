@@ -1,0 +1,40 @@
+{
+  "name": "promise.map",
+  "version": "0.0.1",
+  "description": "Promise.map",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "test-cover": "istanbul cover _mocha -- -u exports"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magicdawn/promise.map.git"
+  },
+  "keywords": [
+    "promise",
+    "map",
+    "parallel"
+  ],
+  "author": "magicdawn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/magicdawn/promise.map/issues"
+  },
+  "homepage": "https://github.com/magicdawn/promise.map#readme",
+  "devDependencies": {
+    "chance": "^1.0.1",
+    "coveralls": "^2.11.8",
+    "eslint": "^2.3.0",
+    "istanbul": "^0.4.2",
+    "lodash": "^4.6.1",
+    "mocha": "^2.4.5",
+    "should": "^8.2.2"
+  },
+  "files": [
+    "index.js",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ]
+}
