@@ -1,0 +1,2 @@
+# promise-map
+Promise.map
