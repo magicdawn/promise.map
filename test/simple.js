@@ -13,7 +13,7 @@ describe('It works', function() {
       return new Promise(function(resolve, reject) {
         setTimeout(function() {
           resolve(x * 2);
-        }, x * 10);
+        }, x * 5);
       });
     }).then(function(arr) {
       arr.length.should.equal(5);
@@ -24,5 +24,23 @@ describe('It works', function() {
 
       done();
     }).catch(done);
+  });
+});
+
+describe('Error should be reported', function() {
+  it('concurrency not number', function() {
+    try {
+      map(
+        [1, 2, 3],
+        function(x) {
+          return Promise.resolve(x);
+        }, {
+          concurrency: 1
+        }
+      );
+    } catch (e) {
+      e.should.instanceOf(TypeError);
+      e.message.should.match(/is not a number/);
+    }
   });
 });

@@ -7,10 +7,13 @@
  */
 
 module.exports = function map(arr, fn, concurrency) {
+  // concurrency
   concurrency = concurrency || Infinity;
+  if (typeof concurrency !== 'number') {
+    throw new TypeError(String(concurrency) + ' is not a number');
+  }
 
   return new Promise(function(resolve, reject) {
-
     var completed = 0;
     var started = 0;
     var running = 0;
