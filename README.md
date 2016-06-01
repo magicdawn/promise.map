@@ -31,6 +31,15 @@ var p = map(arr, function(item, index, arr){
   So we'd better split things out.
 - package `promise-map` simply use `Array.prototype.map`, that lost a `concurrency` or `parallelLimit` control
 
+## See Also
+
+- [promise.ify](https://github.com/magicdawn/promise.ify)
+- [promise.map](https://github.com/magicdawn/promise.map)
+- [promise.timeout](https://github.com/magicdawn/promise.timeout)
+- [promise.retry](https://github.com/magicdawn/promise.retry)
+- [promise.obj](https://github.com/magicdawn/promise.obj)
+- [promise.delay](https://github.com/magicdawn/promise.delay)
+
 ## License
 
 the MIT License http://magicdawn.mit-license.org
