@@ -1,4 +1,6 @@
 # promise.map
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/magicdawn/promise.map.svg)](https://greenkeeper.io/)
 > Promise.map in Bluebird
 
 [![Build Status](https://img.shields.io/travis/magicdawn/promise.map.svg?style=flat-square)](https://travis-ci.org/magicdawn/promise.map)
