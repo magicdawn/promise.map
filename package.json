@@ -24,7 +24,7 @@
   "homepage": "https://github.com/magicdawn/promise.map#readme",
   "devDependencies": {
     "chance": "^1.0.1",
-    "coveralls": "^2.11.8",
+    "coveralls": "^3.0.0",
     "eslint": "^3.19.0",
     "istanbul": "^0.4.2",
     "lodash": "^4.6.1",
