@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
-    "gen-readme": "swig render ./readme/readme.md > README.md",
+    "gen-readme": "swig render ./readme/readme.md > README.md && prettier --write README.md",
     "report-cover": "codecov"
   },
   "repository": {

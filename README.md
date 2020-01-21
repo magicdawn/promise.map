@@ -16,8 +16,6 @@
 $ npm i -S promise.map
 ```
 
-
-
 ## API
 
 ```js
@@ -49,9 +47,6 @@ var p = pmap(
 - [promise.obj](https://github.com/magicdawn/promise.obj)
 - [promise.sleep](https://github.com/magicdawn/promise.sleep)
 
-
-
-
 ## Changelog
 
 [CHANGELOG.md](CHANGELOG.md)
@@ -59,4 +54,3 @@ var p = pmap(
 ## License
 
 the MIT License http://magicdawn.mit-license.org
-
