@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "test-cover": "istanbul cover _mocha -- -u exports"
+    "test-cover": "nyc --reporter=lcov --reporter=text mocha",
+    "gen-readme": "swig render ./readme/readme.md > README.md",
+    "report-cover": "codecov"
   },
   "repository": {
     "type": "git",
@@ -25,16 +27,34 @@
   "devDependencies": {
     "chance": "^1.0.1",
     "coveralls": "^2.11.8",
-    "eslint": "^2.3.0",
+    "eslint": "^6.8.0",
     "istanbul": "^0.4.2",
     "lodash": "^4.6.1",
-    "mocha": "^2.4.5",
-    "should": "^8.2.2"
+    "mocha": "^6.1.4",
+    "should": "^13.2.3",
+    "husky": "latest",
+    "prettier": "latest",
+    "lint-staged": "latest",
+    "codecov": "^3.3.0",
+    "nyc": "^14.0.0",
+    "@magicdawn/eslint-config": "latest",
+    "@magicdawn/prettier-config": "latest"
   },
   "files": [
     "index.js",
     "LICENSE",
     "package.json",
     "README.md"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,less,vue}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
 }
