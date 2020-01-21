@@ -1,6 +1,6 @@
 {
   "name": "promise.map",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Promise.map",
   "main": "index.js",
   "types": "types/index.d.ts",
