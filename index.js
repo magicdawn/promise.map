@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Promise.map(arr, fn, concurrency) in Bluebird
  *
@@ -8,39 +6,38 @@
 
 module.exports = function map(arr, fn, concurrency) {
   // concurrency
-  concurrency = concurrency || Infinity;
+  concurrency = concurrency || Infinity
   if (typeof concurrency !== 'number') {
-    throw new TypeError(String(concurrency) + ' is not a number');
+    throw new TypeError(String(concurrency) + ' is not a number')
   }
 
   return new Promise(function(resolve, reject) {
-    var completed = 0;
-    var started = 0;
-    var running = 0;
-    var results = new Array(arr.length);
+    let completed = 0
+    let started = 0
+    let running = 0
+    let results = new Array(arr.length)
 
-    (function replenish() {
+    ;(function replenish() {
       if (completed >= arr.length) {
-        return resolve(results);
+        return resolve(results)
       }
 
       while (running < concurrency && started < arr.length) {
-        running++;
-        started++;
-
-        (function(index) {
-          var cur = arr[index];
-          fn.call(cur, cur, index, arr)
+        running++
+        started++
+        ;(function(index) {
+          let cur = arr[index]
+          Promise.resolve(fn.call(cur, cur, index, arr))
             .then(function(result) {
-              running--;
-              completed++;
-              results[index] = result;
+              running--
+              completed++
+              results[index] = result
 
-              replenish();
+              replenish()
             })
-            .catch(reject);
-        })(started - 1);
+            .catch(reject)
+        })(started - 1)
       }
-    })();
-  });
-};
+    })()
+  })
+}

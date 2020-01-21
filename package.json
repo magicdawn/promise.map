@@ -3,9 +3,18 @@
   "version": "0.0.2",
   "description": "Promise.map",
   "main": "index.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "index.js",
+    "types/index.d.ts",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "test": "mocha",
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
+    "tsd": "tsd",
     "gen-readme": "swig render ./readme/readme.md > README.md && prettier --write README.md",
     "report-cover": "codecov"
   },
@@ -25,27 +34,22 @@
   },
   "homepage": "https://github.com/magicdawn/promise.map#readme",
   "devDependencies": {
+    "@magicdawn/eslint-config": "latest",
+    "@magicdawn/prettier-config": "latest",
     "chance": "^1.0.1",
+    "codecov": "^3.3.0",
     "coveralls": "^2.11.8",
     "eslint": "^6.8.0",
+    "husky": "latest",
     "istanbul": "^0.4.2",
+    "lint-staged": "latest",
     "lodash": "^4.6.1",
     "mocha": "^6.1.4",
-    "should": "^13.2.3",
-    "husky": "latest",
-    "prettier": "latest",
-    "lint-staged": "latest",
-    "codecov": "^3.3.0",
     "nyc": "^14.0.0",
-    "@magicdawn/eslint-config": "latest",
-    "@magicdawn/prettier-config": "latest"
+    "prettier": "latest",
+    "should": "^13.2.3",
+    "tsd": "^0.11.0"
   },
-  "files": [
-    "index.js",
-    "LICENSE",
-    "package.json",
-    "README.md"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
