@@ -1,5 +1,5 @@
 import {expectType} from 'tsd'
-import pmap from './'
+import pmap, {pmapWorker} from './'
 
 type Item = {a: number; b: string}
 
@@ -17,3 +17,24 @@ const arr: Item[] = [
 
 expectType<Promise<number[]>>(pmap(arr, normal, 10))
 expectType<Promise<number[]>>(pmap(arr, asyncFn, 10))
+
+type Worker = {action: () => number}
+
+async function mapWithWorker(i: Item, index: number, arr: Item[], worker: Worker) {
+  return worker.action()
+}
+
+const workers: Worker[] = [
+  {
+    action() {
+      return 1
+    },
+  },
+  {
+    action() {
+      return 2
+    },
+  },
+]
+
+expectType<Promise<number[]>>(pmapWorker(arr, mapWithWorker, workers))

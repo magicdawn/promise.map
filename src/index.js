@@ -11,7 +11,7 @@ module.exports = function map(arr, fn, concurrency) {
     throw new TypeError(String(concurrency) + ' is not a number')
   }
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let completed = 0
     let started = 0
     let running = 0
@@ -25,10 +25,10 @@ module.exports = function map(arr, fn, concurrency) {
       while (running < concurrency && started < arr.length) {
         running++
         started++
-        ;(function(index) {
+        ;(function (index) {
           let cur = arr[index]
           Promise.resolve(fn.call(cur, cur, index, arr))
-            .then(function(result) {
+            .then(function (result) {
               running--
               completed++
               results[index] = result
@@ -41,3 +41,6 @@ module.exports = function map(arr, fn, concurrency) {
     })()
   })
 }
+
+const pmapWorker = require('./worker')
+module.exports.pmapWorker = pmapWorker
