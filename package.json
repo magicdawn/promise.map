@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "types": "types/index.d.ts",
   "files": [
-    "index.js",
+    "src/",
     "types/index.d.ts",
     "LICENSE",
     "package.json",

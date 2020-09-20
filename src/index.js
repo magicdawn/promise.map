@@ -1,10 +1,9 @@
 /**
  * Promise.map(arr, fn, concurrency) in Bluebird
- *
  * code take from caolan/async
  */
 
-module.exports = function map(arr, fn, concurrency) {
+module.exports = function pmap(arr, fn, concurrency) {
   // concurrency
   concurrency = concurrency || Infinity
   if (typeof concurrency !== 'number') {
