@@ -1,15 +1,35 @@
 ## API
 
-```js
-var pmap = require('promise.map')
+### pmap
 
+```ts
+export default function pmap<IN, OUT>(
+  arr: IN[],
+  fn: (item: IN, index: number, arr: IN[]) => Promise<OUT> | OUT,
+  concurrency: number
+): Promise<OUT[]>
+```
+
+```js
 var p = pmap(
   arr,
-  function(item, index, arr) {
+  function (item, index, arr) {
     return getOtherPromise(item)
   },
   concurrency
 )
+```
+
+### map on Workers: `pmapWorker`
+
+for cpu heavy work, you can map on workers
+
+```ts
+export function pmapWorker<IN, OUT, AnyWorker extends Object>(
+  arr: IN[],
+  fn: (item: IN, index: number, arr: IN[], worker: AnyWorker) => Promise<OUT>,
+  workers: AnyWorker[]
+): Promise<OUT[]>
 ```
 
 ## Why

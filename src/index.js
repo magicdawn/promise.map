@@ -11,10 +11,10 @@ module.exports = function pmap(arr, fn, concurrency) {
   }
 
   return new Promise(function (resolve, reject) {
-    let completed = 0
-    let started = 0
-    let running = 0
-    let results = new Array(arr.length)
+    var completed = 0
+    var started = 0
+    var running = 0
+    var results = new Array(arr.length)
 
     ;(function replenish() {
       if (completed >= arr.length) {
@@ -25,7 +25,7 @@ module.exports = function pmap(arr, fn, concurrency) {
         running++
         started++
         ;(function (index) {
-          let cur = arr[index]
+          var cur = arr[index]
           Promise.resolve(fn.call(cur, cur, index, arr))
             .then(function (result) {
               running--
@@ -41,5 +41,5 @@ module.exports = function pmap(arr, fn, concurrency) {
   })
 }
 
-const pmapWorker = require('./worker')
+var pmapWorker = require('./worker')
 module.exports.pmapWorker = pmapWorker

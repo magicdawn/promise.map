@@ -16,10 +16,6 @@
 $ npm i -S promise.map
 ```
 
-```ts
-import pmap, {pmapWorker} from 'promise.map'
-```
-
 ## API
 
 ### pmap

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.3.1 2020-10-13
+
+- set eslint `ecmaVersion = 5`, use `var` only, no need to compile
+
 ## v0.3.0 2020-09-20
 
 - add pmapWorker

@@ -1,14 +1,15 @@
-module.exports = async function mapOnWorker(arr, fn, workers) {
+module.exports = function mapOnWorker(arr, fn, workers) {
   return new Promise(function (resolve, reject) {
-    let completed = 0
-    let started = 0
-    let running = 0
-    let results = new Array(arr.length)
+    var completed = 0
+    var started = 0
+    var running = 0
+    var results = new Array(arr.length)
 
-    const workerIsUnsing = new WeakMap()
-    const getWorker = (index) => {
-      for (let i = 0; i < workers.length; i++) {
-        const worker = workers[i]
+    var workerIsUnsing = new WeakMap()
+
+    var getWorker = function (index) {
+      for (var i = 0; i < workers.length; i++) {
+        var worker = workers[i]
         if (workerIsUnsing.get(worker)) {
           continue
         } else {
@@ -25,8 +26,8 @@ module.exports = async function mapOnWorker(arr, fn, workers) {
 
       while (running < workers.length && started < arr.length) {
         ;(function (index) {
-          let cur = arr[index]
-          const worker = getWorker(index)
+          var cur = arr[index]
+          var worker = getWorker(index)
           Promise.resolve(fn.call(cur, cur, index, arr, worker))
             .then(function (result) {
               // count down

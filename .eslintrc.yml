@@ -3,3 +3,9 @@ root: true
 
 extends:
   - '@magicdawn'
+
+rules:
+  no-var: off
+
+parserOptions:
+  ecmaVersion: 5
