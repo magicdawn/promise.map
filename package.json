@@ -16,7 +16,8 @@
     "test-cover": "nyc --reporter=lcov --reporter=text mocha",
     "tsd": "tsd",
     "gen-readme": "swig render ./readme/readme.md > README.md && prettier --write README.md",
-    "report-cover": "codecov"
+    "report-cover": "codecov",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -36,19 +37,18 @@
   "devDependencies": {
     "@magicdawn/eslint-config": "latest",
     "@magicdawn/prettier-config": "latest",
-    "chance": "^1.0.1",
-    "codecov": "^3.3.0",
-    "coveralls": "^2.11.8",
+    "chance": "^1.1.9",
+    "codecov": "^3.8.2",
+    "coveralls": "^2.13.3",
     "eslint": "^6.8.0",
-    "husky": "latest",
-    "istanbul": "^0.4.2",
+    "husky": "^8.0.0",
     "lint-staged": "latest",
-    "lodash": "^4.6.1",
-    "mocha": "^6.1.4",
-    "nyc": "^14.0.0",
+    "lodash": "^4.17.21",
+    "mocha": "^6.2.3",
+    "nyc": "^14.1.1",
     "prettier": "latest",
     "should": "^13.2.3",
-    "tsd": "^0.11.0"
+    "tsd": "^0.24.1"
   },
   "husky": {
     "hooks": {
@@ -56,7 +56,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,less,vue}": [
+    "*.{ts,js}": [
       "prettier --write"
     ]
   }
