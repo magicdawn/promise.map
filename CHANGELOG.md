@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.4.0 2022-11-11
+
+- use `export =` for dts file, no required `esModuleInterop` & can work in TypeScript ESM environment
+
 ## v0.3.1 2020-10-13
 
 - set eslint `ecmaVersion = 5`, use `var` only, no need to compile
