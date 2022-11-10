@@ -1,38 +1,33 @@
-const map = require('../')
+require('should')
 const _ = require('lodash')
 const chance = require('chance')
-require('should')
+const map = require('../')
 
-describe('It works', function() {
-  it('simple API', function(done) {
+describe('It works', function () {
+  it('simple API', async function () {
     let arr = _.range(5) // [0 .. 4]
 
-    map(arr, function(x) {
-      return new Promise(function(resolve, reject) {
-        setTimeout(function() {
+    arr = await map(arr, function (x) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
           resolve(x * 2)
         }, x * 5)
       })
     })
-      .then(function(arr) {
-        arr.length.should.equal(5)
 
-        _.times(5, function(x) {
-          arr[x].should.equal(x * 2)
-        })
-
-        done()
-      })
-      .catch(done)
+    arr.length.should.equal(5)
+    _.times(5, function (x) {
+      arr[x].should.equal(x * 2)
+    })
   })
 })
 
-describe('Error should be reported', function() {
-  it('concurrency not number', function() {
+describe('Error should be reported', function () {
+  it('concurrency not number', function () {
     try {
       map(
         [1, 2, 3],
-        function(x) {
+        function (x) {
           return Promise.resolve(x)
         },
         {

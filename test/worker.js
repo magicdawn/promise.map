@@ -1,6 +1,7 @@
-const {performance} = require('perf_hooks')
+const { performance } = require('perf_hooks')
 const _ = require('lodash')
-const {pmapWorker} = require('../')
+require('should')
+const { pmapWorker } = require('../')
 
 describe('pmapWorker works', () => {
   it('simple API', async () => {

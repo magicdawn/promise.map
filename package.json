@@ -12,12 +12,10 @@
     "README.md"
   ],
   "scripts": {
-    "test": "mocha && tsd",
-    "test-cover": "nyc --reporter=lcov --reporter=text mocha",
+    "prepare": "husky install",
+    "test": "jest --coverage && tsd",
     "tsd": "tsd",
-    "gen-readme": "swig render ./readme/readme.md > README.md && prettier --write README.md",
-    "report-cover": "codecov",
-    "prepare": "husky install"
+    "gen-readme": "swig render ./readme/readme.md > README.md && prettier --write README.md"
   },
   "repository": {
     "type": "git",
@@ -37,15 +35,13 @@
   "devDependencies": {
     "@magicdawn/eslint-config": "latest",
     "@magicdawn/prettier-config": "latest",
+    "@types/jest": "^29.2.2",
     "chance": "^1.1.9",
-    "codecov": "^3.8.2",
-    "coveralls": "^2.13.3",
     "eslint": "^6.8.0",
     "husky": "^8.0.0",
+    "jest": "^29.3.1",
     "lint-staged": "latest",
     "lodash": "^4.17.21",
-    "mocha": "^6.2.3",
-    "nyc": "^14.1.1",
     "prettier": "latest",
     "should": "^13.2.3",
     "tsd": "^0.24.1"
