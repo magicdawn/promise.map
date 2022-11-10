@@ -7,9 +7,10 @@
   "files": [
     "src/",
     "types/index.d.ts",
-    "LICENSE",
     "package.json",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "scripts": {
     "prepare": "husky install",
