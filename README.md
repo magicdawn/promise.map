@@ -48,7 +48,7 @@ var p = pmap(
 
 ### map on Workers: `pmapWorker`
 
-for cpu heavy work, you can map on workers
+for cpu heavy work, you can map on workers (WebWorker / Node.js worker_threads)
 
 ```ts
 export function pmapWorker<IN, OUT, AnyWorker extends Object>(
