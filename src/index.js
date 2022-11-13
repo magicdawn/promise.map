@@ -15,8 +15,28 @@ module.exports = function pmap(arr, fn, concurrency) {
     var started = 0
     var running = 0
     var results = new Array(arr.length)
+    var rejected = false
 
-    ;(function replenish() {
+    function start(index) {
+      var cur = arr[index]
+      Promise.resolve(fn.call(cur, cur, index, arr))
+        .then(function (result) {
+          running--
+          completed++
+          results[index] = result
+
+          replenish()
+        })
+        .catch(function (err) {
+          rejected = true
+          reject(err)
+        })
+    }
+
+    function replenish() {
+      // if any previous item rejected, do not start others
+      if (rejected) return
+
       if (completed >= arr.length) {
         return resolve(results)
       }
@@ -24,20 +44,11 @@ module.exports = function pmap(arr, fn, concurrency) {
       while (running < concurrency && started < arr.length) {
         running++
         started++
-        ;(function (index) {
-          var cur = arr[index]
-          Promise.resolve(fn.call(cur, cur, index, arr))
-            .then(function (result) {
-              running--
-              completed++
-              results[index] = result
-
-              replenish()
-            })
-            .catch(reject)
-        })(started - 1)
+        start(started - 1)
       }
-    })()
+    }
+
+    replenish()
   })
 }
 
