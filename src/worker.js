@@ -4,6 +4,7 @@ module.exports = function mapOnWorker(arr, fn, workers) {
     var started = 0
     var running = 0
     var results = new Array(arr.length)
+    var rejected = false
 
     var workerIsUnsing = new WeakMap()
 
@@ -19,32 +20,41 @@ module.exports = function mapOnWorker(arr, fn, workers) {
       }
     }
 
-    ;(function replenish() {
+    function start(index) {
+      var cur = arr[index]
+      var worker = getWorker(index)
+      Promise.resolve(fn.call(cur, cur, index, arr, worker))
+        .then(function (result) {
+          // count down
+          workerIsUnsing.delete(worker)
+          running--
+
+          // mark complete
+          results[index] = result
+          completed++
+
+          replenish()
+        })
+        .catch(function (err) {
+          rejected = true
+          reject(err)
+        })
+    }
+
+    function replenish() {
+      if (rejected) return
+
       if (completed >= arr.length) {
         return resolve(results)
       }
 
       while (running < workers.length && started < arr.length) {
-        ;(function (index) {
-          var cur = arr[index]
-          var worker = getWorker(index)
-          Promise.resolve(fn.call(cur, cur, index, arr, worker))
-            .then(function (result) {
-              // count down
-              workerIsUnsing.delete(worker)
-              running--
-
-              // mark complete
-              results[index] = result
-              completed++
-
-              replenish()
-            })
-            .catch(reject)
-        })(started)
+        start(started)
         started++
         running++
       }
-    })()
+    }
+
+    replenish()
   })
 }

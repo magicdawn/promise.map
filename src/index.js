@@ -42,9 +42,9 @@ module.exports = function pmap(arr, fn, concurrency) {
       }
 
       while (running < concurrency && started < arr.length) {
+        start(started)
         running++
         started++
-        start(started - 1)
       }
     }
 
