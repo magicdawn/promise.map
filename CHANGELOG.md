@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.5.0 2022-11-22
+
+- make code more clear
+
 ## v0.4.0 2022-11-11
 
 - use `export =` for dts file, no required `esModuleInterop` & can work in TypeScript ESM environment
