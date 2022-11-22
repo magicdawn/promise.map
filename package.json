@@ -16,8 +16,8 @@
     "prepare": "husky install",
     "test": "mocha",
     "tsd": "tsd",
-    "gen-readme": "swig render ./readme/readme.md > README.md && prettier --write README.md",
-    "test-cover": "nyc --reporter=lcov --reporter=text mocha"
+    "test-cover": "nyc --reporter=lcov --reporter=text mocha",
+    "gen-readme": "swig render ./readme/readme.md > README.md && prettier --write README.md"
   },
   "repository": {
     "type": "git",
