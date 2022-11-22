@@ -3,7 +3,7 @@ module.exports = function mapOnWorker(arr, fn, workers) {
     var completed = 0
     var started = 0
     var running = 0
-    var results = new Array(arr.length)
+    var results = new Array(arr.length).fill(undefined)
     var rejected = false
 
     var workerIsUnsing = new WeakMap()
