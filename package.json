@@ -36,16 +36,16 @@
   "homepage": "https://github.com/magicdawn/promise.map#readme",
   "devDependencies": {
     "@magicdawn/eslint-config": "^0.1.0",
-    "@magicdawn/prettier-config": "^0.0.2",
-    "chance": "^1.1.9",
-    "eslint": "^8.28.0",
-    "husky": "^8.0.2",
+    "@magicdawn/prettier-config": "^0.0.4",
+    "chance": "^1.1.12",
+    "eslint": "^8.57.1",
+    "husky": "^8.0.3",
     "lint-staged": "latest",
     "lodash": "^4.17.21",
     "prettier": "latest",
     "should": "^13.2.3",
-    "tsd": "^0.24.1",
-    "mocha": "^10.1.0",
+    "tsd": "^0.31.2",
+    "mocha": "^10.8.2",
     "nyc": "^15.1.0"
   },
   "husky": {
@@ -57,5 +57,6 @@
     "*.{ts,js}": [
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
 }
