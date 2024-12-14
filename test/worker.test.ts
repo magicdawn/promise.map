@@ -1,18 +1,18 @@
-const { performance } = require('perf_hooks')
-const _ = require('lodash')
-require('should')
-const { pmapWorker } = require('../')
+import { performance } from 'perf_hooks'
+import { describe, it, expect } from 'vitest'
+import { pmapWorker } from '../src'
+import { range } from 'es-toolkit'
 
 describe('pmapWorker works', () => {
   it('simple API', async () => {
-    let arr = _.range(100) // [0 .. 99]
+    let arr = range(100) // [0 .. 99]
     const aboutTime = 50 // suppose 20 ms
     const expectCostTime = (100 / 10) * aboutTime
 
-    const workers = _.range(0, 10).map((i) => {
+    const workers = range(0, 10).map((i) => {
       return {
         index: i,
-        someHeavyWork(input) {
+        someHeavyWork(input: number): Promise<number> {
           return new Promise((r) => {
             setTimeout(function () {
               r(input * input)
@@ -28,14 +28,15 @@ describe('pmapWorker works', () => {
       async function (item, index, arr, worker) {
         return await worker.someHeavyWork(item)
       },
-      workers
+      workers,
     )
     const costTime = performance.now() - pmapStart
 
     // result
-    result.should.eql(arr.map((x) => x * x))
+    expect(result).toEqual(arr.map((x) => x * x))
 
     // time
-    costTime.should.approximately(expectCostTime, 40)
+    expect(costTime).toBeGreaterThanOrEqual(expectCostTime - 40)
+    expect(costTime).toBeLessThanOrEqual(expectCostTime + 40)
   })
 })

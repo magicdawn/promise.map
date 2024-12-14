@@ -10,3 +10,8 @@ coverage
 coverage.*
 
 .vscode
+
+# ts
+**/*.tsbuildinfo
+/lib
+/dist

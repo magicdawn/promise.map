@@ -1,15 +1,28 @@
-/**
- * Promise.map(arr, fn, concurrency) in Bluebird
- * code take from caolan/async
- */
+import { Dispatcher } from './dispatcher'
 
-module.exports = function pmap(arr, fn, concurrency) {
-  // concurrency
-  concurrency = concurrency || Infinity
-  if (typeof concurrency !== 'number') {
-    throw new TypeError(String(concurrency) + ' is not a number')
+export async function pmapWithDispatcher<T, R>(
+  arr: T[],
+  fn: (item: T, index: number, arr: T[]) => R,
+  concurrency: number,
+) {
+  concurrency = Math.min(concurrency, arr.length)
+  const executors = new Array(concurrency).fill(0).map((_, index) => `pmap.executor.${index}`)
+  const dispatcher = new Dispatcher(executors)
+  try {
+    return await Promise.all(
+      arr.map((item, index) => dispatcher.dispatch(() => fn(item, index, arr))),
+    )
+  } catch (e) {
+    dispatcher.abort()
+    throw e
   }
+}
 
+export async function pmapPlain<T, R>(
+  arr: T[],
+  fn: (item: T, index: number, arr: T[]) => R,
+  concurrency: number,
+) {
   return new Promise(function (resolve, reject) {
     var completed = 0
     var started = 0
@@ -17,7 +30,7 @@ module.exports = function pmap(arr, fn, concurrency) {
     var results = new Array(arr.length).fill(undefined)
     var rejected = false
 
-    function start(index) {
+    function start(index: number) {
       var cur = arr[index]
       Promise.resolve(fn.call(cur, cur, index, arr))
         .then(function (result) {
@@ -51,6 +64,3 @@ module.exports = function pmap(arr, fn, concurrency) {
     replenish()
   })
 }
-
-var pmapWorker = require('./worker')
-module.exports.pmapWorker = pmapWorker
