@@ -4,12 +4,27 @@
   "description": "Promise.map",
   "type": "module",
   "files": [
-    "src/",
+    "dist/",
     "package.json",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
   ],
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
   "scripts": {
     "prepare": "husky",
     "test": "vitest run",
