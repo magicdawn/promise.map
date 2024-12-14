@@ -4,7 +4,7 @@ export default defineConfig((options) => {
   return {
     entry: ['src/index.ts'],
     format: ['esm', 'cjs'],
-    target: 'node16',
+    target: 'es2022',
     clean: true,
     dts: true,
     esbuildOptions(options, context) {

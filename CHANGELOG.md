@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.0.0 2024-12-14
+
+- rewrite with `Dispatcher`
+- use vitest, 100% coverage
+- rewrite with TypeScript, build with tsup
+- requires [`Promise.withResolvers`](https://2ality.com/2024/05/proposal-promise-with-resolvers.html), It's an ES2024 API
+
 ## v0.5.0 2022-11-22
 
 - make code more clear
