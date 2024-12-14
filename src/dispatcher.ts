@@ -42,7 +42,8 @@ export class Dispatcher<E> {
       return await action(executor)
     } finally {
       this.idleArray[index] = true
-      setTimeout(() => this.replenish({ executor, index })) // use macro task
+      // replenish run as a `macro task`, before this macro task, `abort` can be called
+      setTimeout(() => this.replenish({ executor, index }))
     }
   }
 }

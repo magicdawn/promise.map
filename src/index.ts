@@ -1,8 +1,7 @@
 export { Dispatcher } from './dispatcher'
 export { pmapWorker } from './worker'
-export { pmapPlain, pmapWithDispatcher } from './pmap'
+export { pmap } from './pmap'
 
 // pmap default
-import { pmapWithDispatcher } from './pmap'
-export const pmap = pmapWithDispatcher
+import { pmap } from './pmap'
 export default pmap
