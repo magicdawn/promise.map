@@ -2,7 +2,7 @@
 
 > Promise.map
 
-[![Build Status](https://img.shields.io/github/workflow/status/magicdawn/promise.map/ci/master.svg?style=flat-square)](https://github.com/magicdawn/promise.map/actions/workflows/ci.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/magicdawn/promise.map/ci.yml?style=flat-square&branch=main)](https://github.com/magicdawn/promise.map/actions/workflows/ci.yml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/magicdawn/promise.map.svg?style=flat-square)](https://codecov.io/gh/magicdawn/promise.map)
 [![npm version](https://img.shields.io/npm/v/promise.map.svg?style=flat-square)](https://www.npmjs.com/package/promise.map)
 [![npm downloads](https://img.shields.io/npm/dm/promise.map.svg?style=flat-square)](https://www.npmjs.com/package/promise.map)
@@ -22,14 +22,14 @@ $ npm i -S promise.map
 declare function pmap<IN, OUT>(
   arr: IN[],
   fn: (item: IN, index: number, arr: IN[]) => Promise<OUT> | OUT,
-  concurrency: number
+  concurrency: number,
 ): Promise<OUT[]>
 
 declare namespace pmap {
   export function pmapWorker<IN, OUT, AnyWorker extends Object>(
     arr: IN[],
     fn: (item: IN, index: number, arr: IN[], worker: AnyWorker) => Promise<OUT>,
-    workers: AnyWorker[]
+    workers: AnyWorker[],
   ): Promise<OUT[]>
 }
 
@@ -42,7 +42,7 @@ var p = pmap(
   function (item, index, arr) {
     return getOtherPromise(item)
   },
-  concurrency
+  concurrency,
 )
 ```
 
@@ -54,7 +54,7 @@ for cpu heavy work, you can map on workers (WebWorker / Node.js worker_threads)
 export function pmapWorker<IN, OUT, AnyWorker extends Object>(
   arr: IN[],
   fn: (item: IN, index: number, arr: IN[], worker: AnyWorker) => Promise<OUT>,
-  workers: AnyWorker[]
+  workers: AnyWorker[],
 ): Promise<OUT[]>
 ```
 
