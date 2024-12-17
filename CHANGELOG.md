@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Future version changelog: see GitHub Release
+
+https://github.com/magicdawn/promise.map/releases
+
 ## v1.0.0 2024-12-14
 
 - rewrite with `Dispatcher`
