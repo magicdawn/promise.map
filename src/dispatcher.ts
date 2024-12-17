@@ -1,9 +1,18 @@
+export type UniversalMap<E, V> = E extends object ? WeakMap<E, V> : Map<E, V>
+
 export class Dispatcher<E> {
   private executors: E[]
-  private idleArray: boolean[]
+  private idleMap: UniversalMap<E, boolean>
   constructor(executors: E[]) {
+    if (!executors.length) throw new Error('executors can not be empty')
     this.executors = executors
-    this.idleArray = new Array(executors.length).fill(true)
+
+    this.idleMap = (
+      executors[0] && typeof executors[0] === 'object'
+        ? new WeakMap<E & object, boolean>()
+        : new Map<E, boolean>()
+    ) as UniversalMap<E, boolean>
+    executors.forEach((x) => this.idleMap.set(x, true))
   }
 
   private aborted = false
@@ -13,37 +22,35 @@ export class Dispatcher<E> {
   }
 
   pendingResolves: Array<() => void> = []
-  replenish = ({ executor, index }: { executor: E; index: number }) => {
+  replenish = (executor: E) => {
     if (this.aborted) return
     if (!this.pendingResolves.length) return
     this.pendingResolves.shift()?.()
   }
 
   private async getExecutor() {
-    const findIndex = () => this.executors.findIndex((x, index) => this.idleArray[index])
+    const find = () => this.executors.find((x) => this.idleMap.get(x))
 
-    let index = findIndex()
-    while (index === -1) {
+    let executor = find()
+    while (!executor) {
       const { promise, resolve } = Promise.withResolvers<void>()
       this.pendingResolves.push(resolve)
       await promise
-      index = findIndex()
+      executor = find()
     }
 
-    // mark used
-    const executor = this.executors[index]
-    this.idleArray[index] = false
-    return { executor, index }
+    this.idleMap.set(executor, false) // mark used
+    return executor
   }
 
   async dispatch<T>(action: (executor: E) => T) {
-    const { executor, index } = await this.getExecutor()
+    const executor = await this.getExecutor()
     try {
       return await action(executor)
     } finally {
-      this.idleArray[index] = true
+      this.idleMap.set(executor, true)
       // replenish run as a `macro task`, before this macro task, `abort` can be called
-      setTimeout(() => this.replenish({ executor, index }))
+      setTimeout(() => this.replenish(executor))
     }
   }
 }
