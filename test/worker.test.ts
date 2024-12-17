@@ -52,7 +52,7 @@ describe('pmapWorker works', () => {
         },
       }
     })
-    await expect(
+    await expect(() =>
       pmapWorker(
         arr,
         async (x: number, index, arr, worker) => {
@@ -64,7 +64,7 @@ describe('pmapWorker works', () => {
         },
         workers,
       ),
-    ).rejects.toThrow('test error')
+    ).rejects.toThrowError('test error')
     expect(called).toEqual([1, 2, 3])
   })
 })

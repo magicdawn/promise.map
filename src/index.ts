@@ -1,7 +1,4 @@
 export { Dispatcher } from './dispatcher'
 export { pmapWorker } from './worker'
-export { pmap } from './pmap'
-
-// pmap default
-import { pmap } from './pmap'
-export default pmap
+export { pLimit, createLimitedVersionOfFn } from './limit'
+export { pmap, pmap as default } from './pmap'

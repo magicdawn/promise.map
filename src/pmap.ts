@@ -6,8 +6,7 @@ export async function pmap<T, R>(
   concurrency: number,
 ) {
   concurrency = Math.min(concurrency, arr.length)
-  const executors = new Array(concurrency).fill(0).map((_, index) => `pmap.executor.${index}`)
-  const dispatcher = new Dispatcher(executors)
+  const dispatcher = Dispatcher.fromConcurrency(concurrency, 'pmap')
   try {
     return await Promise.all(
       arr.map((item, index) => dispatcher.dispatch(() => fn(item, index, arr))),

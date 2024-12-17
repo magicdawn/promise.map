@@ -1,18 +1,29 @@
-export type UniversalMap<E, V> = E extends object ? WeakMap<E, V> : Map<E, V>
+type Ref<T> = { val: T }
 
 export class Dispatcher<E> {
-  private executors: E[]
-  private idleMap: UniversalMap<E, boolean>
+  static fromConcurrency(concurrency: number, label = '') {
+    if (!isFinite(concurrency)) throw new Error('concurrency must be finite')
+    if (!(concurrency > 0)) throw new Error('concurrency must be greater than 0')
+    const executors = new Array(concurrency).fill(0).map((_, index) =>
+      [label, `executors(${concurrency})`, index]
+        .map((x) => x && x.toString().trim())
+        .filter(Boolean)
+        .join('.'),
+    )
+    return new Dispatcher(executors)
+  }
+
+  private unwrapRef<T>(ref: Ref<T>): T {
+    return ref.val
+  }
+
+  private executorRefs: Ref<E>[]
+  private idleState: WeakMap<Ref<E>, boolean>
   constructor(executors: E[]) {
     if (!executors.length) throw new Error('executors can not be empty')
-    this.executors = executors
-
-    this.idleMap = (
-      executors[0] && typeof executors[0] === 'object'
-        ? new WeakMap<E & object, boolean>()
-        : new Map<E, boolean>()
-    ) as UniversalMap<E, boolean>
-    executors.forEach((x) => this.idleMap.set(x, true))
+    this.executorRefs = executors.map((x) => ({ val: x })) // weakmap 需要 reference type 作为 key
+    this.idleState = new WeakMap()
+    this.executorRefs.forEach((x) => this.idleState.set(x, true))
   }
 
   private aborted = false
@@ -22,35 +33,36 @@ export class Dispatcher<E> {
   }
 
   pendingResolves: Array<() => void> = []
-  replenish = (executor: E) => {
+  replenish = (executor: Ref<E>) => {
     if (this.aborted) return
     if (!this.pendingResolves.length) return
     this.pendingResolves.shift()?.()
   }
 
-  private async getExecutor() {
-    const find = () => this.executors.find((x) => this.idleMap.get(x))
+  private async getExecutorRef() {
+    const find = () => this.executorRefs.find((x) => this.idleState.get(x))
 
-    let executor = find()
-    while (!executor) {
+    let executorRef = find()
+    while (!executorRef) {
       const { promise, resolve } = Promise.withResolvers<void>()
       this.pendingResolves.push(resolve)
       await promise
-      executor = find()
+      executorRef = find()
     }
 
-    this.idleMap.set(executor, false) // mark used
-    return executor
+    this.idleState.set(executorRef, false) // mark used
+    return executorRef
   }
 
-  async dispatch<T>(action: (executor: E) => T) {
-    const executor = await this.getExecutor()
+  async dispatch<R>(action: (executor: E) => R): Promise<Awaited<R>> {
+    const executorRef = await this.getExecutorRef()
+    const executor = this.unwrapRef(executorRef)
     try {
       return await action(executor)
     } finally {
-      this.idleMap.set(executor, true)
+      this.idleState.set(executorRef, true)
       // replenish run as a `macro task`, before this macro task, `abort` can be called
-      setTimeout(() => this.replenish(executor))
+      setTimeout(() => this.replenish(executorRef))
     }
   }
 }

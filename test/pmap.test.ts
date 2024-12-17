@@ -1,6 +1,7 @@
 import { delay, range } from 'es-toolkit'
 import { describe, it, expect } from 'vitest'
 import pmap from '../src'
+import { approximateCostTime } from './_shared'
 
 describe('pmap', function () {
   it('it works', async function () {
@@ -32,12 +33,6 @@ describe('pmap', function () {
       return performance.now() - start
     }
 
-    function approximateCostTime(time: number, tolerance: number) {
-      return function satisfy(val: number) {
-        return Math.abs(val - time) <= Math.abs(tolerance)
-      }
-    }
-
     const tolerance = 10
 
     // Infinity
@@ -56,7 +51,7 @@ describe('pmap', function () {
   it('should not start new after errored', async () => {
     const arr = [1, 2, 3, 4, 5, 6]
     const called: number[] = []
-    await expect(
+    await expect(() =>
       pmap(
         arr,
         async (x: number) => {
@@ -68,7 +63,7 @@ describe('pmap', function () {
         },
         2,
       ),
-    ).rejects.toThrow('test error')
+    ).rejects.toThrowError('test error')
     expect(called).toEqual([1, 2, 3])
   })
 })
