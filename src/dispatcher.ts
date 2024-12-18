@@ -1,4 +1,8 @@
-type Ref<T> = { val: T }
+type Ref<T> = { value: T }
+
+function unwrapRef<T>(ref: Ref<T>): T {
+  return ref.value
+}
 
 export class Dispatcher<E> {
   static fromConcurrency(concurrency: number, label = '') {
@@ -13,15 +17,11 @@ export class Dispatcher<E> {
     return new Dispatcher(executors)
   }
 
-  private unwrapRef<T>(ref: Ref<T>): T {
-    return ref.val
-  }
-
   private executorRefs: Ref<E>[]
   private idleState: WeakMap<Ref<E>, boolean>
   constructor(executors: E[]) {
     if (!executors.length) throw new Error('executors can not be empty')
-    this.executorRefs = executors.map((x) => ({ val: x })) // weakmap 需要 reference type 作为 key
+    this.executorRefs = executors.map((x) => ({ value: x })) // weakmap 需要 reference type 作为 key
     this.idleState = new WeakMap()
     this.executorRefs.forEach((x) => this.idleState.set(x, true))
   }
@@ -56,7 +56,7 @@ export class Dispatcher<E> {
 
   async dispatch<R>(action: (executor: E) => R): Promise<Awaited<R>> {
     const executorRef = await this.getExecutorRef()
-    const executor = this.unwrapRef(executorRef)
+    const executor = unwrapRef(executorRef)
     try {
       return await action(executor)
     } finally {
