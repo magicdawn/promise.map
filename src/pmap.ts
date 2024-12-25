@@ -5,6 +5,7 @@ export async function pmap<T, R>(
   fn: (item: T, index: number, arr: T[]) => R,
   concurrency: number,
 ) {
+  if (!arr.length) return []
   concurrency = Math.min(concurrency, arr.length)
   const dispatcher = Dispatcher.fromConcurrency(concurrency, 'pmap')
   try {

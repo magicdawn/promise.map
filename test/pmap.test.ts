@@ -66,4 +66,9 @@ describe('pmap', function () {
     ).rejects.toThrowError('test error')
     expect(called).toEqual([1, 2, 3])
   })
+
+  it('works with empty array', async () => {
+    const arr: number[] = []
+    expect(await pmap(arr, (x) => x, 2)).toEqual([])
+  })
 })
