@@ -79,8 +79,12 @@
     }
   },
   "lint-staged": {
-    "*.{ts,js}": [
+    "*.{?(c|m)(j|t)s?(x),json,y?(a)ml}": [
+      "eslint --fix",
       "prettier --write"
+    ],
+    "!*.{?(c|m)(j|t)s?(x),json,y?(a)ml}": [
+      "prettier --write --ignore-unknown"
     ]
   }
 }

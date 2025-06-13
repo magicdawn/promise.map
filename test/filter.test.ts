@@ -1,7 +1,7 @@
 /* eslint-disable require-await */
 
+import { describe, expect, it } from 'vitest'
 import { pFilter } from '../src'
-import { describe, it, expect } from 'vitest'
 
 describe('pFilter', () => {
   it('should works', async () => {
