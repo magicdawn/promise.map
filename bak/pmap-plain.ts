@@ -1,17 +1,13 @@
-export async function pmapPlain<T, R>(
-  arr: T[],
-  fn: (item: T, index: number, arr: T[]) => R,
-  concurrency: number,
-) {
+export async function pmapPlain<T, R>(arr: T[], fn: (item: T, index: number, arr: T[]) => R, concurrency: number) {
   return new Promise(function (resolve, reject) {
-    var completed = 0
-    var started = 0
-    var running = 0
-    var results = new Array(arr.length).fill(undefined)
-    var rejected = false
+    let completed = 0
+    let started = 0
+    let running = 0
+    const results = Array.from({ length: arr.length }).fill(undefined)
+    let rejected = false
 
     function start(index: number) {
-      var cur = arr[index]
+      const cur = arr[index]
       Promise.resolve(fn.call(cur, cur, index, arr))
         .then(function (result) {
           running--

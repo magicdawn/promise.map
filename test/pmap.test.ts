@@ -1,5 +1,7 @@
+/* eslint-disable require-await */
+
 import { delay, range } from 'es-toolkit'
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import pmap from '../src'
 import { approximateCostTime } from './_shared'
 
@@ -21,7 +23,7 @@ describe('pmap', function () {
   it('concurrency control is correct', async function () {
     async function measureCostTime(concurrency: number) {
       let arr = range(5) // [0 .. 4]
-      let start = performance.now()
+      const start = performance.now()
       arr = await pmap(
         arr,
         async function (x) {

@@ -1,5 +1,5 @@
 import { delay, noop, range } from 'es-toolkit'
-import { expect, describe, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { createLimitedVersionOfFn, pLimit } from '../src'
 import { approximateCostTime } from './_shared'
 
@@ -13,21 +13,17 @@ describe('concurrency invalid check', () => {
 
   describe('createLimitedVersionOfFn(fn, concurrency)', () => {
     it('should throws when concurrency is invalid', () => {
-      expect(() => createLimitedVersionOfFn(noop, 0)).toThrowError(
-        'concurrency must be greater than 0',
-      )
-      expect(() => createLimitedVersionOfFn(noop, Infinity)).toThrowError(
-        'concurrency must be finite',
-      )
+      expect(() => createLimitedVersionOfFn(noop, 0)).toThrowError('concurrency must be greater than 0')
+      expect(() => createLimitedVersionOfFn(noop, Infinity)).toThrowError('concurrency must be finite')
     })
   })
 })
 
 describe('concurrency control is correct', () => {
   it('pLimit', async function () {
-    let arr = range(5) // [0 .. 4]
+    const arr = range(5) // [0 .. 4]
     async function measureCostTime(concurrency: number) {
-      let start = performance.now()
+      const start = performance.now()
 
       async function work(x: number) {
         await delay(x * 10)
@@ -64,9 +60,9 @@ describe('concurrency control is correct', () => {
   })
 
   it('createLimitedVersionOfFn', async function () {
-    let arr = range(5) // [0 .. 4]
+    const arr = range(5) // [0 .. 4]
     async function measureCostTime(concurrency: number) {
-      let start = performance.now()
+      const start = performance.now()
 
       async function work(x: number) {
         await delay(x * 10)

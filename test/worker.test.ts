@@ -1,11 +1,11 @@
-import { performance } from 'perf_hooks'
-import { describe, it, expect } from 'vitest'
-import { pmapWorker } from '../src'
+import { performance } from 'node:perf_hooks'
 import { delay, range } from 'es-toolkit'
+import { describe, expect, it } from 'vitest'
+import { pmapWorker } from '../src'
 
 describe('pmapWorker works', () => {
   it('simple API', async () => {
-    let arr = range(100) // [0 .. 99]
+    const arr = range(100) // [0 .. 99]
     const aboutTime = 50 // suppose 20 ms
     const expectCostTime = (100 / 10) * aboutTime
 

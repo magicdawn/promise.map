@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "strict": true,
     "target": "ES2022",
+    "lib": ["ES2022", "ES2024.Promise"],
     "module": "ES2022",
     "moduleResolution": "bundler",
-    "lib": ["ES2022", "ES2024.Promise"],
+    "strict": true,
     "skipLibCheck": true
   }
 }

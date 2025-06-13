@@ -8,10 +8,10 @@ export function pLimit(concurrency: number) {
   }
 }
 
-export function createLimitedVersionOfFn<T extends unknown[], R>(
-  fn: (...args: T) => R,
-  concurrency: number,
-) {
+// `p-limit.limitFunction`
+export const limitFunction = createLimitedVersionOfFn
+
+export function createLimitedVersionOfFn<T extends unknown[], R>(fn: (...args: T) => R, concurrency: number) {
   const dispatcher = Dispatcher.fromConcurrency(concurrency, 'createLimitedVersionOfFn')
   return function limitedVersionOfFn(...args: NoInfer<T>) {
     return dispatcher.dispatch(() => fn(...args))

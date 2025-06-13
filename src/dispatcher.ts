@@ -1,3 +1,6 @@
+/* eslint-disable unicorn/no-new-array */
+/* eslint-disable unicorn/prefer-number-properties */
+
 type Ref<T> = { value: T }
 
 function unwrapRef<T>(ref: Ref<T>): T {
