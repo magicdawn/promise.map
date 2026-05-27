@@ -7,6 +7,10 @@ function unwrapRef<T>(ref: Ref<T>): T {
   return ref.value
 }
 
+/**
+ * Dispatcher#dispatch ≈ semaphore.acquire + semaphore.release + try/catch
+ * @see https://es-toolkit.dev/reference/promise/Semaphore.html#semaphore-capacity
+ */
 export class Dispatcher<E> {
   static fromConcurrency(concurrency: number, label = '') {
     if (!isFinite(concurrency)) throw new Error('concurrency must be finite')
